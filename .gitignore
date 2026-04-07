@@ -1,0 +1,38 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Distribution
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Env
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Output
+output/*.mp3
+output/*.wav
+output/*.ogg
+
+# Storage
+storage/
+*.db
+
+# Logs
+*.log
