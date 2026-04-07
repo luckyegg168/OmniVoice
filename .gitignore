@@ -36,3 +36,4 @@ storage/
 
 # Logs
 *.log
+.coverage
