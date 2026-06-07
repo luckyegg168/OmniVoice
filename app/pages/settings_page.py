@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from nicegui import run, ui
+from nicegui import ui
 
 from app.i18n.translations import get_locale, set_locale, t
 from app.storage import db
@@ -10,9 +10,6 @@ from app.storage import db
 
 def settings_page(engines: dict) -> None:  # noqa: ARG001
     """Render the settings page."""
-
-    async def load_settings():
-        return await run.io_bound(db.load_settings)
 
     async def save_and_notify():
         settings_data = {
@@ -24,13 +21,13 @@ def settings_page(engines: dict) -> None:  # noqa: ARG001
             "auto_play": auto_play_switch.value,
             "save_history": save_history_switch.value,
         }
-        await run.io_bound(db.save_settings, settings_data)
+        await db.save_settings(settings_data)
         set_locale(locale_select.value)
         ui.notify(f"✅ {t('settings_saved')}", type="positive")
 
     async def export_settings():
-        path = await run.io_bound(db.export_settings)
-        ui.download(path)
+        json_str = await db.export_settings()
+        ui.download(json_str.encode(), filename="settings.json", media_type="application/json")
         ui.notify(t("settings_exported"), type="positive")
 
     async def handle_import(e):
@@ -39,8 +36,9 @@ def settings_page(engines: dict) -> None:  # noqa: ARG001
         import json
 
         try:
-            data = json.loads(e.content.read())
-            await run.io_bound(db.import_settings, data)
+            raw = e.content.read()
+            json_str = raw.decode() if isinstance(raw, bytes) else raw
+            await db.import_settings(json_str)
             ui.notify(t("settings_imported"), type="positive")
             ui.navigate.reload()
         except Exception as exc:
@@ -52,7 +50,13 @@ def settings_page(engines: dict) -> None:  # noqa: ARG001
     with ui.card().classes("w-full p-6"):
         ui.label(f"🌐 {t('language_settings')}").classes("text-lg font-semibold mb-2")
         locale_select = ui.select(
-            options={"zh-TW": "繁體中文", "en": "English", "ja": "日本語"},
+            options={
+                "zh-TW": "繁體中文",
+                "zh-CN": "简体中文",
+                "en": "English",
+                "ja": "日本語",
+                "ko": "한국어",
+            },
             value=get_locale(),
             label=t("language_label"),
         ).classes("w-64")
@@ -111,7 +115,7 @@ def settings_page(engines: dict) -> None:  # noqa: ARG001
 
     # ── Init ──
     async def _init():
-        settings = await load_settings()
+        settings = await db.load_settings()
         if settings:
             locale_select.value = settings.get("locale", "zh-TW")
             engine_select.value = settings.get("default_engine", "edge-tts")

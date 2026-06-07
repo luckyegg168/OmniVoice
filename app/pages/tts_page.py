@@ -96,6 +96,10 @@ def tts_page(engines: dict) -> None:
                 output_path=out_path,
             )
 
+            if not voice_select.value:
+                ui.notify(t("voice_label") + " is required", type="warning")
+                return
+
             eng = engines.get(state["current_engine_id"])
             if eng is None:
                 ui.notify(t("engine_unavailable"), type="negative")
@@ -121,7 +125,7 @@ def tts_page(engines: dict) -> None:
                 audio_path=result.audio_path,
                 duration_seconds=result.duration_seconds,
             )
-            await run.io_bound(db.add_history_record, record)
+            await db.add_history_record(record)
 
             ui.notify(
                 f"✅ {t('generate_success')} ({result.duration_seconds:.1f}s)",

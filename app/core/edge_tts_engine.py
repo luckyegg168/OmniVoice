@@ -90,9 +90,9 @@ def _format_rate(speed: float) -> str:
 
 
 def _format_pitch(pitch: float) -> str:
-    """Convert pitch offset to Edge-TTS pitch string."""
-    hz = int(pitch)
-    return f"{hz:+d}Hz" if hz != 0 else "+0Hz"
+    """Convert pitch multiplier (0.5–2.0, default 1.0) to Edge-TTS pitch string."""
+    hz = int((pitch - 1.0) * 100)
+    return f"{hz:+d}Hz"
 
 
 def _format_volume(volume: float) -> str:

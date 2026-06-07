@@ -116,7 +116,7 @@ def batch_page(engines: dict) -> None:
                     audio_path=result.audio_path,
                     duration_seconds=result.duration_seconds,
                 )
-                await run.io_bound(db.add_history_record, record)
+                await db.add_history_record(record)
                 success_count += 1
 
             except Exception as exc:

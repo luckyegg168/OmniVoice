@@ -20,6 +20,13 @@ def voice_clone_page(engines: dict) -> None:
 
     state = {"ref_audio_path": None, "generating": False}
 
+    # Check OmniVoice engine availability on load
+    omnivoice_eng = engines.get("omnivoice")
+    if omnivoice_eng is None or not omnivoice_eng.is_available():
+        ui.markdown(f"⚠️ **{t('omnivoice_unavailable')}**").classes(
+            "bg-yellow-900/30 text-yellow-200 p-4 rounded-lg mb-4"
+        )
+
     async def handle_upload(e):
         if e.content is None:
             return
@@ -87,7 +94,7 @@ def voice_clone_page(engines: dict) -> None:
                 audio_path=result.audio_path,
                 duration_seconds=result.duration_seconds,
             )
-            await run.io_bound(db.add_history_record, record)
+            await db.add_history_record(record)
 
             ui.notify(
                 f"✅ {t('clone_success')} ({result.duration_seconds:.1f}s)",
@@ -115,10 +122,14 @@ def voice_clone_page(engines: dict) -> None:
 
         ui.separator().classes("my-4")
 
-        clone_text = ui.textarea(
-            label=t("clone_target_text"),
-            placeholder=t("clone_placeholder"),
-        ).classes("w-full").props("rows=5")
+        clone_text = (
+            ui.textarea(
+                label=t("clone_target_text"),
+                placeholder=t("clone_placeholder"),
+            )
+            .classes("w-full")
+            .props("rows=5")
+        )
 
         with ui.row().classes("mt-4 gap-4"):
             clone_btn = ui.button(

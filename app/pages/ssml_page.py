@@ -108,7 +108,7 @@ def ssml_page(engines: dict) -> None:
                 audio_path=result.audio_path,
                 duration_seconds=result.duration_seconds,
             )
-            await run.io_bound(db.add_history_record, record)
+            await db.add_history_record(record)
 
             ui.notify(f"✅ {t('generate_success')}", type="positive")
 

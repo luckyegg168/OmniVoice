@@ -60,6 +60,10 @@ NON_VERBAL_SYMBOLS = [
 ]
 
 
-def validate_text_length(text: str, max_length: int = 10000) -> bool:
-    """Validate text is within allowed length."""
-    return 0 < len(text) <= max_length
+def validate_text_length(text: str, max_length: int = 10000) -> tuple[bool, str]:
+    """Validate text is within allowed length. Returns (ok, message)."""
+    if len(text) == 0:
+        return False, "Text cannot be empty."
+    if len(text) > max_length:
+        return False, f"Text exceeds maximum length of {max_length} characters."
+    return True, ""

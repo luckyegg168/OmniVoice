@@ -4,18 +4,24 @@ from __future__ import annotations
 
 from app.i18n.en import EN_TRANSLATIONS
 from app.i18n.ja import JA_TRANSLATIONS
+from app.i18n.ko import KO_TRANSLATIONS
+from app.i18n.zh_cn import ZH_CN_TRANSLATIONS
 from app.i18n.zh_tw import ZH_TW_TRANSLATIONS
 
 SUPPORTED_LOCALES: dict[str, str] = {
     "zh-TW": "繁體中文",
+    "zh-CN": "简体中文",
     "en": "English",
     "ja": "日本語",
+    "ko": "한국어",
 }
 
 _ALL_TRANSLATIONS: dict[str, dict[str, str]] = {
     "zh-TW": ZH_TW_TRANSLATIONS,
+    "zh-CN": ZH_CN_TRANSLATIONS,
     "en": EN_TRANSLATIONS,
     "ja": JA_TRANSLATIONS,
+    "ko": KO_TRANSLATIONS,
 }
 
 # Current locale state

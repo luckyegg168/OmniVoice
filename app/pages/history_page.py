@@ -16,7 +16,7 @@ def history_page(engines: dict) -> None:  # noqa: ARG001
     state = {"records": [], "search": "", "filter_engine": ""}
 
     async def load_records():
-        all_records = await run.io_bound(db.load_history)
+        all_records = await db.load_history()
         filtered = all_records
 
         if state["search"]:
@@ -73,15 +73,15 @@ def history_page(engines: dict) -> None:  # noqa: ARG001
         audio_player.visible = True
 
     async def _toggle_fav(record_id: str):
-        await run.io_bound(db.toggle_favorite, record_id)
+        await db.toggle_favorite(record_id)
         await load_records()
 
     async def _delete(record_id: str):
-        await run.io_bound(db.delete_history_record, record_id)
+        await db.delete_history_record(record_id)
         await load_records()
 
     async def _clear_all():
-        await run.io_bound(db.clear_history)
+        await db.clear_history()
         await load_records()
 
     # ── Layout ──
