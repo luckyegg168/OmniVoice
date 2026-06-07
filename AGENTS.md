@@ -52,8 +52,8 @@ app/
 ## Testing
 
 ```bash
-pytest                    # Run all tests
-pytest tests/test_i18n.py # Locale-specific tests
+uv run pytest -v         # Run all tests
+uv run pytest tests/test_i18n.py -v # Locale-specific tests
 ```
 
 ## Adding a New Locale

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import html
+import json
 import uuid
 from pathlib import Path
 
@@ -13,11 +15,22 @@ from app.models.history import HistoryRecord
 from app.models.tts_request import TTSRequest
 from app.storage import db
 
+# ── Quick-tag definitions: (label, open_tag, close_tag) ──
+SSML_QUICK_TAGS = [
+    ("<break/>", '<break time="500ms"/>', ""),
+    ("<emphasis>", '<emphasis level="strong">', "</emphasis>"),
+    ("<prosody>", '<prosody rate="slow">', "</prosody>"),
+    ("<say-as>", '<say-as interpret-as="characters">', "</say-as>"),
+    ("<sub>", '<sub alias="">', "</sub>"),
+    ("<lang>", '<lang xml:lang="en-US">', "</lang>"),
+    ("<voice>", '<voice name="zh-TW-HsiaoChenNeural">', "</voice>"),
+]
+
 SSML_TEMPLATES = {
     "basic": (
         '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"'
         ' xml:lang="zh-TW">\n'
-        "  <voice name=\"zh-TW-HsiaoChenNeural\">\n"
+        '  <voice name="zh-TW-HsiaoChenNeural">\n'
         "    你好，歡迎使用語音合成。\n"
         "  </voice>\n"
         "</speak>"
@@ -56,6 +69,27 @@ def ssml_page(engines: dict) -> None:
         template = SSML_TEMPLATES.get(name, "")
         if template:
             ssml_editor.value = template
+
+    def convert_to_ssml():
+        """Wrap plain text in basic SSML skeleton and populate the editor."""
+        text = plain_input.value.strip()
+        if not text:
+            # If empty, use the focus hint
+            ui.notify(t("input_placeholder"), type="warning")
+            return
+        # Escape HTML special chars so plain text & < > don't break SSML
+        escaped = html.escape(text)
+        # Split lines, wrap each non-empty line as a paragraph
+        lines = [f"  {ln}" for ln in escaped.split("\n") if ln.strip()]
+        body = "\n".join(lines) if lines else f"  {escaped}"
+        ssml = (
+            '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"'
+            ' xml:lang="zh-TW">\n'
+            f"{body}\n"
+            "</speak>"
+        )
+        ssml_editor.value = ssml
+        ui.notify("✅ SSML 已產生，可繼續編輯", type="positive")
 
     async def synthesize_ssml():
         if state["generating"]:
@@ -123,6 +157,19 @@ def ssml_page(engines: dict) -> None:
     ui.label(t("ssml_title")).classes("text-2xl font-bold mb-4")
     ui.label(t("ssml_description")).classes("text-gray-400 mb-4")
 
+    # ── Plain text → SSML ──
+    ui.separator().classes("my-4")
+    ui.label(t("ssml_paste_label")).classes("text-lg font-semibold mb-2")
+    plain_input = ui.textarea(label=t("input_placeholder")).classes("w-full").props("rows=4")
+    with ui.row().classes("mt-2 mb-1"):
+        ui.button(
+            f"🔁 {t('ssml_convert_btn')}",
+            on_click=convert_to_ssml,
+        ).props("flat color=primary")
+
+    ui.separator().classes("my-4")
+
+    # ── SSML Templates & Editor ──
     with ui.row().classes("gap-2 mb-4"):
         ui.label(f"📝 {t('ssml_templates')}:").classes("self-center")
         for name in SSML_TEMPLATES:
@@ -131,10 +178,40 @@ def ssml_page(engines: dict) -> None:
                 on_click=lambda _, n=name: insert_template(n),
             ).props("flat dense")
 
-    ssml_editor = ui.textarea(
-        label=t("ssml_editor_label"),
-        value=SSML_TEMPLATES["basic"],
-    ).classes("w-full font-mono").props("rows=12")
+    # ── Quick-tag buttons ──
+    with ui.row().classes("gap-1 mb-2"):
+        ui.label(f"🏷️ {t('ssml_quick_tags')}:").classes("self-center text-sm")
+        for label, open_tag, close_tag in SSML_QUICK_TAGS:
+            ui.button(
+                label,
+                on_click=lambda _, o=open_tag, c=close_tag: ui.run_javascript(
+                    f"insertSSMLTag({json.dumps(o)}, {json.dumps(c)})"
+                ),
+            ).props("flat dense size=sm")
+
+    # Inject JS helper for cursor-aware tag insertion
+    ui.add_body_html("""
+<script>
+function insertSSMLTag(openTag, closeTag) {
+    var ta = document.querySelector('.font-mono textarea');
+    if (!ta) return;
+    var start = ta.selectionStart;
+    var end = ta.selectionEnd;
+    var sel = ta.value.substring(start, end);
+    ta.setRangeText(openTag + sel + closeTag, start, end, 'end');
+    ta.dispatchEvent(new Event('input', {bubbles: true}));
+}
+</script>
+""")
+
+    ssml_editor = (
+        ui.textarea(
+            label=t("ssml_editor_label"),
+            value=SSML_TEMPLATES["basic"],
+        )
+        .classes("w-full font-mono")
+        .props("rows=12")
+    )
 
     with ui.row().classes("mt-4"):
         ssml_btn = ui.button(

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from nicegui import run, ui
 
+from app.components.voice_selector import voice_selector as create_voice_selector
 from app.config import OUTPUT_DIR
 from app.core.audio_utils import (
     count_text_stats,
@@ -49,11 +50,7 @@ def tts_page(engines: dict) -> None:
     async def refresh_voices():
         voices = await load_voices(state["current_engine_id"])
         state["voices"] = voices
-        options = {v.id: f"{v.name} ({v.language})" for v in voices}
-        voice_select.options = options
-        if voices:
-            voice_select.value = voices[0].id
-        voice_select.update()
+        voice_sel["update"](voices)
 
     def update_stats():
         txt = text_area.value or ""
@@ -84,9 +81,14 @@ def tts_page(engines: dict) -> None:
             ext = "wav" if state["current_engine_id"] == "omnivoice" else "mp3"
             out_path = str(OUTPUT_DIR / f"{file_id}.{ext}")
 
+            voice_id = voice_sel["voice_select"].value or ""
+            if not voice_id:
+                ui.notify(t("voice_label") + " is required", type="warning")
+                return
+
             request = TTSRequest(
                 text=processed,
-                voice=voice_select.value or "",
+                voice=voice_id,
                 language="zh-TW",
                 engine=state["current_engine_id"],
                 speed=speed_slider.value,
@@ -95,10 +97,6 @@ def tts_page(engines: dict) -> None:
                 output_format=ext,
                 output_path=out_path,
             )
-
-            if not voice_select.value:
-                ui.notify(t("voice_label") + " is required", type="warning")
-                return
 
             eng = engines.get(state["current_engine_id"])
             if eng is None:
@@ -116,7 +114,7 @@ def tts_page(engines: dict) -> None:
             record = HistoryRecord(
                 text=processed,
                 engine=state["current_engine_id"],
-                voice=voice_select.value or "",
+                voice=voice_id,
                 language="zh-TW",
                 speed=speed_slider.value,
                 pitch=pitch_slider.value,
@@ -147,7 +145,7 @@ def tts_page(engines: dict) -> None:
     # ── Layout ──
     ui.label(t("tts_title")).classes("text-2xl font-bold mb-4")
 
-    with ui.row().classes("w-full gap-4 items-end"):
+    with ui.row().classes("w-full gap-4 items-end flex-wrap"):
         ui.select(
             options={eid: eng.name() for eid, eng in engines.items()},
             value=state["current_engine_id"],
@@ -155,16 +153,17 @@ def tts_page(engines: dict) -> None:
             on_change=lambda e: _on_engine_change(e.value),
         ).classes("w-48")
 
-        voice_select = ui.select(
-            options={},
-            label=t("voice_label"),
-        ).classes("w-64")
+        voice_sel = create_voice_selector([])
 
-    text_area = ui.textarea(
-        label=t("input_text"),
-        placeholder=t("input_placeholder"),
-        on_change=lambda _: update_stats(),
-    ).classes("w-full mt-4").props("rows=8")
+    text_area = (
+        ui.textarea(
+            label=t("input_text"),
+            placeholder=t("input_placeholder"),
+            on_change=lambda _: update_stats(),
+        )
+        .classes("w-full mt-4")
+        .props("rows=8")
+    )
 
     stats_label = ui.label("").classes("text-sm text-gray-400 mt-1")
 

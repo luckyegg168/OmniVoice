@@ -23,9 +23,28 @@ def voice_clone_page(engines: dict) -> None:
     # Check OmniVoice engine availability on load
     omnivoice_eng = engines.get("omnivoice")
     if omnivoice_eng is None or not omnivoice_eng.is_available():
-        ui.markdown(f"⚠️ **{t('omnivoice_unavailable')}**").classes(
-            "bg-yellow-900/30 text-yellow-200 p-4 rounded-lg mb-4"
-        )
+        with ui.row().classes(
+            "items-center gap-2 bg-yellow-900/30 text-yellow-200 p-4 rounded-lg mb-4"
+        ):
+            ui.markdown(f"⚠️ **{t('omnivoice_unavailable')}**")
+            ui.button(
+                f"📦 {t('omnivoice_install_btn')}",
+                on_click=lambda: install_dialog.open(),
+            ).props("flat dense color=primary")
+
+    # ── Install dialog ──
+    with ui.dialog() as install_dialog, ui.card().classes("p-6"):
+        ui.label(f"📦 {t('omnivoice_install_btn')}").classes("text-lg font-bold mb-2")
+        ui.label(t("install_cmd_hint")).classes("mb-1")
+        ui.code("pip install omnivoice torch torchaudio", language="bash").classes("my-2")
+        with ui.row().classes("gap-2"):
+            ui.button(
+                t("copy_btn"),
+                on_click=lambda: ui.run_javascript(
+                    "navigator.clipboard.writeText('pip install omnivoice torch torchaudio')"
+                ),
+            ).props("flat color=primary")
+            ui.button(t("close"), on_click=install_dialog.close).props("flat")
 
     async def handle_upload(e):
         if e.content is None:

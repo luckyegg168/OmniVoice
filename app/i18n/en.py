@@ -4,7 +4,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     # App
     "app_title": "OmniVoice TTS",
     "app_subtitle": "Multi-engine Multilingual Text-to-Speech",
-
     # Navigation
     "nav_tts": "Text to Speech",
     "nav_clone": "Voice Clone",
@@ -13,7 +12,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     "nav_history": "History",
     "nav_settings": "Settings",
     "nav_about": "About",
-
     # TTS Page
     "input_text": "Input Text",
     "input_placeholder": "Enter text to convert to speech...",
@@ -32,7 +30,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     "char_count": "Characters",
     "word_count": "Words",
     "est_duration": "Est. Duration",
-
     # Voice Clone
     "clone_title": "Voice Cloning",
     "clone_desc": "Upload 3-10 second reference audio to clone voice style",
@@ -40,7 +37,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     "ref_text": "Reference Text (optional)",
     "target_text": "Target Text",
     "upload_audio": "Upload Audio",
-
     # Batch
     "batch_title": "Batch Conversion",
     "batch_desc": "Import TXT or SRT files for batch conversion",
@@ -48,13 +44,11 @@ EN_TRANSLATIONS: dict[str, str] = {
     "start_batch": "Start Batch",
     "batch_progress": "Progress",
     "download_all": "Download All",
-
     # SSML
     "ssml_title": "SSML Editor",
     "ssml_desc": "Use SSML tags for fine-grained speech control",
     "ssml_preview": "Preview",
     "insert_tag": "Insert Tag",
-
     # History
     "history_title": "History",
     "history_empty": "No history records",
@@ -64,7 +58,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     "unfavorite": "Unfavorite",
     "replay": "Replay",
     "clear_history": "Clear History",
-
     # Settings
     "settings_title": "Settings",
     "locale_label": "Language",
@@ -78,7 +71,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     "import_settings": "Import Settings",
     "save_settings": "Save",
     "settings_saved": "Settings saved",
-
     # About
     "about_title": "About OmniVoice",
     "version": "Version",
@@ -87,7 +79,6 @@ EN_TRANSLATIONS: dict[str, str] = {
     "unavailable": "Unavailable",
     "usage_guide": "Usage Guide",
     "license_info": "License",
-
     # Common
     "confirm": "Confirm",
     "cancel": "Cancel",
@@ -99,39 +90,32 @@ EN_TRANSLATIONS: dict[str, str] = {
     "no_data": "No data",
     "text_too_long": "Text exceeds length limit",
     "text_empty": "Please enter text",
-
     # Non-verbal symbols
     "symbols_title": "Non-verbal Symbols",
     "insert_symbol": "Insert Symbol",
-
     # Pronunciation
     "pronunciation_title": "Pronunciation Correction",
     "pinyin_label": "Pinyin (Chinese)",
     "cmu_label": "CMU Phoneme (English)",
-
     # Queue
     "queue_title": "Task Queue",
     "queue_empty": "Queue empty",
     "queue_pending": "Pending",
     "queue_processing": "Processing",
     "queue_completed": "Completed",
-
     # Notifications
     "task_complete": "Task completed",
     "task_failed": "Task failed",
-
     # Voice presets
     "presets_title": "Voice Presets",
     "preset_news": "News Anchor",
     "preset_story": "Story Reader",
     "preset_assistant": "Smart Assistant",
     "preset_child": "Children's Book",
-
     # Keyboard shortcuts
     "shortcuts_title": "Keyboard Shortcuts",
     "shortcut_generate": "Ctrl+Enter: Generate",
     "shortcut_play": "Space: Play/Pause",
-
     # Additional page keys
     "tts_title": "Text to Speech",
     "clone_description": "Upload 3-10 second reference audio to clone voice style with OmniVoice",
@@ -144,6 +128,9 @@ EN_TRANSLATIONS: dict[str, str] = {
     "clone_btn": "Clone Voice",
     "clone_success": "Voice cloned successfully",
     "omnivoice_unavailable": "OmniVoice engine unavailable (torch required)",
+    "omnivoice_install_btn": "Install OmniVoice",
+    "install_cmd_hint": "Run the following command:",
+    "copy_btn": "Copy",
     "engine_unavailable": "Selected engine is unavailable",
     "batch_input": "Input Text",
     "batch_input_placeholder": "Enter a line of text...",
@@ -161,6 +148,9 @@ EN_TRANSLATIONS: dict[str, str] = {
     "ssml_editor_label": "SSML Editor",
     "ssml_generate": "Generate Speech",
     "ssml_empty": "Please enter SSML content",
+    "ssml_paste_label": "Paste plain text",
+    "ssml_convert_btn": "Convert to SSML",
+    "ssml_quick_tags": "Quick Tags",
     "search_label": "Search",
     "search_placeholder": "Enter keyword to search...",
     "all_engines": "All Engines",

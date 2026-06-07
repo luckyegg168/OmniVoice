@@ -16,11 +16,11 @@
 ## 快速開始
 
 ```bash
-# 安裝依賴
-pip install -e ".[dev]"
+# 安裝依賴（需先安裝 uv: https://docs.astral.sh/uv/#installation）
+uv sync
 
 # 啟動應用
-python -m app.main
+uv run python -m app.main
 ```
 
 開啟瀏覽器訪問 http://localhost:8080
@@ -29,13 +29,13 @@ python -m app.main
 
 ```bash
 # 安裝開發依賴
-pip install -e ".[dev]"
+uv sync
 
 # 程式碼檢查
-ruff check app/ tests/
+uv run ruff check app/ tests/
 
 # 執行測試
-pytest --cov=app tests/
+uv run pytest --cov=app tests/
 ```
 
 ## 技術棧

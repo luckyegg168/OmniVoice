@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "OmniVoice TTS App — 多引擎多國語系文字轉語音應用"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [{name = "OmniVoice Team", email = "luckyegg168@gmail.com"}]
 
 dependencies = [
@@ -31,6 +31,9 @@ dev = [
 
 [project.scripts]
 omnivoice-app = "app.main:main"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
 
 [build-system]
 requires = ["setuptools>=68"]

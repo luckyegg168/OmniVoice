@@ -28,6 +28,20 @@ def about_page(engines: dict) -> None:
     with ui.card().classes("w-full p-6 mb-4"):
         ui.label(f"🔧 {t('engine_status')}").classes("text-lg font-semibold mb-2")
 
+        # Install dialog (shared across all unavailable engines)
+        with ui.dialog() as install_dialog, ui.card().classes("p-6"):
+            ui.label(f"📦 {t('omnivoice_install_btn')}").classes("text-lg font-bold mb-2")
+            ui.label(t("install_cmd_hint")).classes("mb-1")
+            ui.code("pip install omnivoice torch torchaudio", language="bash").classes("my-2")
+            with ui.row().classes("gap-2"):
+                ui.button(
+                    t("copy_btn"),
+                    on_click=lambda: ui.run_javascript(
+                        "navigator.clipboard.writeText('pip install omnivoice torch torchaudio')"
+                    ),
+                ).props("flat color=primary")
+                ui.button(t("close"), on_click=install_dialog.close).props("flat")
+
         for _eid, eng in engines.items():
             available = eng.is_available()
             icon = "✅" if available else "❌"
@@ -37,6 +51,11 @@ def about_page(engines: dict) -> None:
                     t("available") if available else t("unavailable"),
                     color="green" if available else "red",
                 )
+                if not available:
+                    ui.button(
+                        f"📦 {t('omnivoice_install_btn')}",
+                        on_click=install_dialog.open,
+                    ).props("flat dense color=primary")
 
     # ── Feature List ──
     with ui.card().classes("w-full p-6 mb-4"):

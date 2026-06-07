@@ -4,7 +4,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     # App
     "app_title": "OmniVoice 語音生成",
     "app_subtitle": "多引擎多國語系文字轉語音",
-
     # Navigation
     "nav_tts": "語音生成",
     "nav_clone": "語音克隆",
@@ -13,7 +12,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "nav_history": "歷史紀錄",
     "nav_settings": "設定",
     "nav_about": "關於",
-
     # TTS Page
     "input_text": "輸入文字",
     "input_placeholder": "在此輸入要轉換為語音的文字...",
@@ -32,7 +30,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "char_count": "字數",
     "word_count": "詞數",
     "est_duration": "預估時長",
-
     # Voice Clone
     "clone_title": "語音克隆",
     "clone_desc": "上傳 3-10 秒參考音檔，克隆語音風格",
@@ -40,7 +37,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "ref_text": "參考文字（選填）",
     "target_text": "目標文字",
     "upload_audio": "上傳音檔",
-
     # Batch
     "batch_title": "批次語音轉換",
     "batch_desc": "匯入 TXT 或 SRT 檔案進行批次轉換",
@@ -48,13 +44,11 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "start_batch": "開始批次轉換",
     "batch_progress": "轉換進度",
     "download_all": "全部下載",
-
     # SSML
     "ssml_title": "SSML 編輯器",
     "ssml_desc": "使用 SSML 標籤精細控制語音合成",
     "ssml_preview": "預覽",
     "insert_tag": "插入標籤",
-
     # History
     "history_title": "歷史紀錄",
     "history_empty": "暫無歷史紀錄",
@@ -64,7 +58,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "unfavorite": "取消收藏",
     "replay": "重播",
     "clear_history": "清除歷史",
-
     # Settings
     "settings_title": "設定",
     "locale_label": "介面語言",
@@ -78,7 +71,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "import_settings": "匯入設定",
     "save_settings": "儲存設定",
     "settings_saved": "設定已儲存",
-
     # About
     "about_title": "關於 OmniVoice",
     "version": "版本",
@@ -87,7 +79,6 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "unavailable": "不可用",
     "usage_guide": "使用說明",
     "license_info": "授權資訊",
-
     # Common
     "confirm": "確認",
     "cancel": "取消",
@@ -99,39 +90,32 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "no_data": "無資料",
     "text_too_long": "文字超過長度限制",
     "text_empty": "請輸入文字",
-
     # Non-verbal symbols
     "symbols_title": "非語言符號",
     "insert_symbol": "插入符號",
-
     # Pronunciation
     "pronunciation_title": "發音校正",
     "pinyin_label": "拼音（中文）",
     "cmu_label": "CMU 音標（英文）",
-
     # Queue
     "queue_title": "任務佇列",
     "queue_empty": "佇列為空",
     "queue_pending": "待處理",
     "queue_processing": "處理中",
     "queue_completed": "已完成",
-
     # Notifications
     "task_complete": "任務完成",
     "task_failed": "任務失敗",
-
     # Voice presets
     "presets_title": "語音角色預設",
     "preset_news": "新聞播報",
     "preset_story": "故事朗讀",
     "preset_assistant": "智慧助理",
     "preset_child": "童書朗讀",
-
     # Keyboard shortcuts
     "shortcuts_title": "鍵盤快捷鍵",
     "shortcut_generate": "Ctrl+Enter: 生成語音",
     "shortcut_play": "Space: 播放/暫停",
-
     # Additional page keys
     "tts_title": "文字轉語音",
     "clone_description": "上傳 3-10 秒參考音檔，使用 OmniVoice 克隆語音風格",
@@ -144,6 +128,9 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "clone_btn": "克隆語音",
     "clone_success": "語音克隆成功",
     "omnivoice_unavailable": "OmniVoice 引擎不可用（需安裝 torch）",
+    "omnivoice_install_btn": "安裝 OmniVoice",
+    "install_cmd_hint": "執行以下指令：",
+    "copy_btn": "複製",
     "engine_unavailable": "所選引擎不可用",
     "batch_input": "輸入文字",
     "batch_input_placeholder": "輸入一行文字...",
@@ -161,6 +148,9 @@ ZH_TW_TRANSLATIONS: dict[str, str] = {
     "ssml_editor_label": "SSML 編輯器",
     "ssml_generate": "生成語音",
     "ssml_empty": "請輸入 SSML 內容",
+    "ssml_paste_label": "貼上純文字",
+    "ssml_convert_btn": "轉換為 SSML",
+    "ssml_quick_tags": "快速標籤",
     "search_label": "搜尋",
     "search_placeholder": "輸入關鍵字搜尋...",
     "all_engines": "所有引擎",
